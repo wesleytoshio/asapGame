@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../../domain/entities/user_entity.dart';
 import '../../../../domain/use_cases/save_current_user_usecase.dart';
@@ -25,9 +26,23 @@ abstract class _LoginControllerBase with Store {
   final TextEditingController password = TextEditingController();
 
   @observable
-  String valor = '';
+  FormGroup form = FormGroup({
+    'email': FormControl<String>(validators: [
+      Validators.required,
+      Validators.email,
+    ]),
+    'password': FormControl<String>(
+      validators: [
+        Validators.required,
+        Validators.minLength(6),
+      ],
+    ),
+    // 'terms': FormControl<bool>(validators: [
+    //   Validators.required,
+    // ]),
+  });
 
-  Future<void> submitSignIn({required UserEntity user}) async {
+  Future<void> signInWithEmailAndPassword({required UserEntity user}) async {
     try {
       await signInUseCase.call(user);
     } catch (_) {
@@ -35,7 +50,7 @@ abstract class _LoginControllerBase with Store {
     }
   }
 
-  Future<void> submitSignUp({required UserEntity user}) async {
+  Future<void> signUpWithEmailAndPassword({required UserEntity user}) async {
     try {
       await signUPUseCase.call(user);
     } catch (_) {}

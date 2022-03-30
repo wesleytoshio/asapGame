@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
+import '../../../domain/entities/user_entity.dart';
 import '../../widgets/custom_annotated_region.dart';
 
 class LoginPage extends StatefulWidget {
@@ -46,6 +47,9 @@ class _SignInPageState extends State<LoginPage> {
       //   Validators.required,
       // ]),
     });
+    formLogin.valueChanges.listen((event) {
+      print('aaaaaaaaaaaaaaaaaaaa');
+    });
   }
 
   @override
@@ -53,61 +57,66 @@ class _SignInPageState extends State<LoginPage> {
     return CustomAnnotationRegion(
       brightness: Brightness.dark,
       child: Scaffold(
-        body: SafeArea(
-          child: ReactiveForm(
-            formGroup: formLogin,
-            child: Padding(
-              padding: const EdgeInsets.all(30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Spacer(),
-                  Text.rich(
-                    TextSpan(
-                      text: 'Asap',
-                      children: [
-                        TextSpan(
-                            text: 'Game',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(primaryColor),
-                            )),
-                      ],
-                    ),
-                    style: Theme.of(context).textTheme.headline4!.copyWith(
-                          fontWeight: FontWeight.normal,
-                          color: Colors.black54,
-                        ),
+        body: ReactiveForm(
+          formGroup: formLogin,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                const SizedBox(height: kToolbarHeight * 2.5),
+                Text.rich(
+                  TextSpan(
+                    text: 'Asap',
+                    children: [
+                      TextSpan(
+                          text: 'Game',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(primaryColor),
+                          )),
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  Text('Explore milhares de desafios divertidos e multiplayer',
-                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                          color: Colors.grey, fontWeight: FontWeight.normal)),
-                  const SizedBox(height: 20),
-                  CustomReactiveTextField(
-                    formControlName: 'email',
-                    labelText: "Email address",
-                    suffixIcon: Ionicons.mail_outline,
-                    onPressedSuffix: () {},
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black54,
+                      ),
+                ),
+                const SizedBox(height: 10),
+                Text('Explore milhares de desafios divertidos e multiplayer',
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        color: Colors.grey, fontWeight: FontWeight.normal)),
+                const SizedBox(height: 20),
+                CustomReactiveTextField(
+                  formControlName: 'email',
+                  labelText: "Email address",
+                  suffixIcon: Ionicons.mail_outline,
+                  onPressedSuffix: () {},
+                ),
+                const SizedBox(height: 20),
+                CustomReactiveTextField(
+                  formControlName: 'password',
+                  labelText: "Password",
+                  obscureText: !showPassword,
+                  suffixIcon: showPassword
+                      ? Ionicons.eye_outline
+                      : Ionicons.eye_off_outline,
+                  onPressedSuffix: () {
+                    setState(() {
+                      showPassword = !showPassword;
+                    });
+                  },
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text("Redefina sua senha"),
                   ),
-                  const SizedBox(height: 20),
-                  CustomReactiveTextField(
-                    formControlName: 'password',
-                    labelText: "Password",
-                    obscureText: !showPassword,
-                    suffixIcon: showPassword
-                        ? Ionicons.eye_outline
-                        : Ionicons.eye_off_outline,
-                    onPressedSuffix: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                  ),
-                  TextButton(
-                      onPressed: () {}, child: Text("Redefina sua senha")),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
+                ),
+                const SizedBox(height: 20),
+                ReactiveFormConsumer(builder: (context, snapshot, child) {
+                  return ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         minimumSize: Size(
                           double.infinity,
@@ -118,57 +127,56 @@ class _SignInPageState extends State<LoginPage> {
                         shape: ContinuousRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         )),
-                    onPressed: submitSignIn,
+                    onPressed: snapshot.valid ? submitSignIn : null,
                     child: const Text("Acessar conta"),
+                  );
+                }),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(
+                        double.infinity,
+                        50,
+                      ),
+                      elevation: 0,
+                      textStyle: const TextStyle(fontSize: 16),
+                      shape: ContinuousRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                  onPressed: submitSignIn,
+                  child: Row(
+                    children: [
+                      Icon(Ionicons.logo_google),
+                      Expanded(
+                        flex: 5,
+                        child: Center(child: Text("Continuar com Google")),
+                      ),
+                      Icon(
+                        Ionicons.logo_google,
+                        color: Colors.transparent,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(
-                          double.infinity,
-                          50,
-                        ),
-                        elevation: 0,
-                        textStyle: const TextStyle(fontSize: 16),
-                        shape: ContinuousRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                    onPressed: submitSignIn,
-                    child: Row(
+                ),
+                const SizedBox(height: 30),
+                Center(
+                  child: Text.rich(
+                    TextSpan(
+                      text: "Não tem uma conta? ",
                       children: [
-                        Icon(Ionicons.logo_google),
-                        Expanded(
-                          flex: 5,
-                          child: Center(child: Text("Continuar com Google")),
-                        ),
-                        Icon(
-                          Ionicons.logo_google,
-                          color: Colors.transparent,
-                        ),
+                        TextSpan(
+                            text: 'Criar conta',
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => print('criar conta'),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ))
                       ],
                     ),
                   ),
-                  const SizedBox(height: 30),
-                  Center(
-                    child: Text.rich(
-                      TextSpan(
-                        text: "Não tem uma conta? ",
-                        children: [
-                          TextSpan(
-                              text: 'Criar conta',
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () => print('criar conta'),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary,
-                              ))
-                        ],
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -179,15 +187,11 @@ class _SignInPageState extends State<LoginPage> {
   }
 
   void submitSignIn() {
-    print(formLogin.valid);
-    // if (_emailController.text.isNotEmpty &&
-    //     _passwordController.text.isNotEmpty) {
-    //   BlocProvider.of<UserCubit>(context).submitSignIn(
-    //       user: UserEntity(
-    //     email: _emailController.text,
-    //     password: _passwordController.text,
-    //   ));
-    // }
+    controller.signInWithEmailAndPassword(
+        user: UserEntity(
+      email: formLogin.control('email').value,
+      password: formLogin.control('password').value,
+    ));
   }
 }
 
