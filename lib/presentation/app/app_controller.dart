@@ -6,6 +6,9 @@ import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../domain/entities/user_entity.dart';
+import '../../domain/use_cases/get_current_user_usecase.dart';
+import '../../domain/use_cases/is_sign_in_usecase.dart';
+import '../../domain/use_cases/sign_out_usecase.dart';
 import '../themes/theme_const.dart';
 
 part 'app_controller.g.dart';
@@ -14,7 +17,11 @@ part 'app_controller.g.dart';
 class AppController = _AppControllerBase with _$AppController;
 
 abstract class _AppControllerBase with Store {
-  _AppControllerBase() {
+  final GetCurrentUserUseCase getCurrentUserUseCase;
+  final IsSignInUseCase isSignInUseCase;
+  final SignOutUseCase signOutUseCase;
+  _AppControllerBase(
+      this.getCurrentUserUseCase, this.isSignInUseCase, this.signOutUseCase) {
     loadTheme();
   }
   @observable
@@ -25,6 +32,7 @@ abstract class _AppControllerBase with Store {
 
   @action
   setUser(UserEntity value) {
+    print('CURRENT $value');
     user = value;
   }
 
@@ -54,8 +62,17 @@ abstract class _AppControllerBase with Store {
   }
 
   @action
-  initializeApp() {
-    //setThemeData(ThemeData.light());
+  initializeApp() async {
+    setUser(await getCurrentUserUseCase());
+  }
+
+  @action
+  loggedOut() async {
+    try {
+      await signOutUseCase.call();
+    } catch (_) {
+      print('loggedOut catch');
+    }
   }
 
   Future<void> loadTheme() async {

@@ -32,8 +32,12 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData, child: const PlayersPage());
     },
     RegisterPageRoute.name: (routeData) {
+      final args = routeData.argsAs<RegisterPageRouteArgs>(
+          orElse: () => const RegisterPageRouteArgs());
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const RegisterPage());
+          routeData: routeData,
+          child:
+              RegisterPage(key: args.key, onLoginResult: args.onLoginResult));
     },
     GamePageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -98,10 +102,27 @@ class PlayersPageRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [RegisterPage]
-class RegisterPageRoute extends PageRouteInfo<void> {
-  const RegisterPageRoute() : super(RegisterPageRoute.name, path: '/register');
+class RegisterPageRoute extends PageRouteInfo<RegisterPageRouteArgs> {
+  RegisterPageRoute({Key? key, void Function(bool)? onLoginResult})
+      : super(RegisterPageRoute.name,
+            path: '/register',
+            args:
+                RegisterPageRouteArgs(key: key, onLoginResult: onLoginResult));
 
   static const String name = 'RegisterPageRoute';
+}
+
+class RegisterPageRouteArgs {
+  const RegisterPageRouteArgs({this.key, this.onLoginResult});
+
+  final Key? key;
+
+  final void Function(bool)? onLoginResult;
+
+  @override
+  String toString() {
+    return 'RegisterPageRouteArgs{key: $key, onLoginResult: $onLoginResult}';
+  }
 }
 
 /// generated route for

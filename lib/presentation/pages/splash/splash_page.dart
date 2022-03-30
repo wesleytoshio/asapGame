@@ -13,11 +13,18 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      getIt<AppController>().initializeApp();
-      Future.delayed(const Duration(seconds: 1)).then((value) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      var appController = getIt<AppController>();
+      try {
+        await appController.initializeApp();
+        if (appController.user != null) {
+          AppConfig.instance.appRouter.replaceNamed('/players');
+        } else {
+          AppConfig.instance.appRouter.replaceNamed('/login');
+        }
+      } catch (e) {
         AppConfig.instance.appRouter.replaceNamed('/login');
-      });
+      }
     });
   }
 

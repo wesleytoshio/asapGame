@@ -39,6 +39,21 @@ mixin _$AppController on _AppControllerBase, Store {
     });
   }
 
+  final _$initializeAppAsyncAction =
+      AsyncAction('_AppControllerBase.initializeApp');
+
+  @override
+  Future initializeApp() {
+    return _$initializeAppAsyncAction.run(() => super.initializeApp());
+  }
+
+  final _$loggedOutAsyncAction = AsyncAction('_AppControllerBase.loggedOut');
+
+  @override
+  Future loggedOut() {
+    return _$loggedOutAsyncAction.run(() => super.loggedOut());
+  }
+
   final _$_AppControllerBaseActionController =
       ActionController(name: '_AppControllerBase');
 
@@ -59,17 +74,6 @@ mixin _$AppController on _AppControllerBase, Store {
         name: '_AppControllerBase.setThemeData');
     try {
       return super.setThemeData(value);
-    } finally {
-      _$_AppControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic initializeApp() {
-    final _$actionInfo = _$_AppControllerBaseActionController.startAction(
-        name: '_AppControllerBase.initializeApp');
-    try {
-      return super.initializeApp();
     } finally {
       _$_AppControllerBaseActionController.endAction(_$actionInfo);
     }
