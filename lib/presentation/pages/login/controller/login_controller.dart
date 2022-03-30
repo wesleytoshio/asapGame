@@ -36,6 +36,8 @@ abstract class _LoginControllerBase with Store {
   Future<void> signUpWithEmailAndPassword({required UserEntity user}) async {
     try {
       await signUPUseCase.call(user);
-    } catch (_) {}
+    } catch (_) {
+      print(_);
+    }
   }
 }

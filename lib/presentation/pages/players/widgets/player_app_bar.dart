@@ -1,29 +1,43 @@
 import 'package:flutter/material.dart';
 
-class PlayerAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const PlayerAppBar({Key? key})
-      : preferredSize = const Size.fromHeight(60.0),
-        super(key: key);
+class PlayerSliveAppBarFlexible extends StatelessWidget {
+  final double appBarHeight = 140;
 
-  @override
-  final Size preferredSize;
+  const PlayerSliveAppBarFlexible({Key? key}) : super(key: key);
 
-  @override
-  _CustomAppBarState createState() => _CustomAppBarState();
-}
-
-class _CustomAppBarState extends State<PlayerAppBar> {
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      actions: <Widget>[
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.logout,
-          ),
+    return SliverAppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      expandedHeight: 250,
+      flexibleSpace: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: kToolbarHeight),
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 55,
+              child: CircleAvatar(
+                backgroundImage:
+                    NetworkImage('https://i.pravatar.cc/150?img=22'),
+                radius: 50,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Wesley Oliveira',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            const SizedBox(height: 5),
+            Text(
+              'Level 16',
+              style: Theme.of(context).textTheme.subtitle2,
+            )
+          ],
         ),
-      ],
+      ),
     );
   }
 }

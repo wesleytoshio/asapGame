@@ -107,7 +107,9 @@ class FirebaseAuthRemoteDataSourceImpl implements FirebaseAuthRemoteDataSource {
   }
 
   @override
-  Future<void> signUp(UserEntity user) async =>
-      auth.createUserWithEmailAndPassword(
-          email: user.email!, password: user.password!);
+  Future<void> signUp(UserEntity user) async {
+    auth.createUserWithEmailAndPassword(
+        email: user.email!, password: user.password!);
+    saveCurrentUser(user);
+  }
 }

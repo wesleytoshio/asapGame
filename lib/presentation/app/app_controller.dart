@@ -1,12 +1,12 @@
 import 'package:asap_game/infra/constants/storage/hive_box.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../domain/entities/user_entity.dart';
-import '../themes/theme_colors.dart';
+import '../themes/theme_const.dart';
 
 part 'app_controller.g.dart';
 
@@ -31,18 +31,20 @@ abstract class _AppControllerBase with Store {
   @action
   setThemeData(ThemeData value) {
     themeData = value.copyWith(
-      brightness: identical(value.brightness, Brightness.dark)
-          ? Brightness.light
-          : Brightness.dark,
-      textTheme: value.textTheme.apply(
-        fontFamily: GoogleFonts.lexend().fontFamily,
-      ),
-      primaryTextTheme: value.textTheme.apply(
-        fontFamily: GoogleFonts.lexend().fontFamily,
-      ),
-      accentTextTheme: value.textTheme.apply(
-        fontFamily: GoogleFonts.lexend().fontFamily,
-      ),
+      // textTheme: value.textTheme.apply(
+      //   fontFamily: GoogleFonts.lexend().fontFamily,
+      // ),
+      // appBarTheme: value.appBarTheme.copyWith(
+      //   systemOverlayStyle: identical(value.brightness, Brightness.light)
+      //       ? SystemUiOverlayStyle.dark
+      //       : SystemUiOverlayStyle.light,
+      // ),
+      // primaryTextTheme: value.textTheme.apply(
+      //   fontFamily: GoogleFonts.lexend().fontFamily,
+      // ),
+      // accentTextTheme: value.textTheme.apply(
+      //   fontFamily: GoogleFonts.lexend().fontFamily,
+      // ),
       colorScheme: value.colorScheme.copyWith(
         primary: const Color(primaryColor),
       ),
