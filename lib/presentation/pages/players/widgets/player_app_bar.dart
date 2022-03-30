@@ -56,7 +56,7 @@ class PlayerSliveAppBarFlexible extends StatelessWidget {
                             child: CircleAvatar(
                               backgroundColor: Colors.white,
                               radius: 16,
-                              child: Icon(Ionicons.settings_outline),
+                              child: Icon(Ionicons.settings_sharp),
                             ),
                           ),
                         ),

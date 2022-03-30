@@ -1,7 +1,6 @@
 import 'package:asap_game/di/injectable.dart';
 import 'package:asap_game/presentation/app/app_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../routes/app_router.dart';
@@ -15,7 +14,7 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     AppController _controller = getIt<AppController>();
     var theme = ThemeData.light().copyWith(brightness: Brightness.light);
-    return Observer(builder: (context) {
+    return Builder(builder: (context) {
       return MaterialApp.router(
         routerDelegate: appRouter.delegate(
           navigatorObservers: () => [
