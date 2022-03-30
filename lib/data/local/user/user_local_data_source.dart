@@ -31,7 +31,6 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   @override
   Future<void> saveUser(UserEntity user) {
     try {
-      print('SAVE USER ${user.email}');
       return Hive.box(HiveBox.user)
           .put(HiveBox.userLocalKey, UserMapper.entityToModel(user).toJson());
     } catch (e) {

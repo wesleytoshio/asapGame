@@ -17,8 +17,8 @@ class CustomAnnotationRegion extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: statusBarColor,
-        statusBarBrightness: brightness,
-        statusBarIconBrightness: brightness,
+        statusBarBrightness: brightness ?? Theme.of(context).brightness,
+        statusBarIconBrightness: brightness ?? Theme.of(context).brightness,
       ),
       child: child,
     );

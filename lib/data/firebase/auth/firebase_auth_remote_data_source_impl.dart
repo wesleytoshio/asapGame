@@ -2,6 +2,7 @@ import 'package:asap_game/data/local/user/user_local_data_source.dart';
 import 'package:asap_game/data/mappers/user/user_mapper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/entities/user_entity.dart';
@@ -30,9 +31,12 @@ class FirebaseAuthRemoteDataSourceImpl implements FirebaseAuthRemoteDataSource {
         status: user.status,
         email: user.email,
         name: user.name,
+        picture: user.picture,
       );
+      var json = newUser.toJson();
+      json.remove('password');
       if (!value.exists) {
-        userCollectionRef.doc(uid).set(newUser.toJson());
+        userCollectionRef.doc(uid).set(json);
         userLocalDataSource.saveUser(newUser);
       }
       return;
@@ -58,6 +62,43 @@ class FirebaseAuthRemoteDataSourceImpl implements FirebaseAuthRemoteDataSource {
   @override
   Future<void> signIn(UserEntity user) async => auth.signInWithEmailAndPassword(
       email: user.email!, password: user.password!);
+
+  @override
+  Future<void> signInGoogle() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      try {
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
+        saveCurrentUser(UserEntity(
+          name: userCredential.user!.displayName,
+          email: userCredential.user!.email,
+          picture: userCredential.user!.photoURL,
+          status: "online",
+        ));
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          print('account-exists-with-different-credential');
+        } else if (e.code == 'invalid-credential') {
+          print('invalid-credential');
+        }
+      } catch (e) {
+        print('ERROR $e');
+      }
+    }
+  }
 
   @override
   Future<void> signOut() async {

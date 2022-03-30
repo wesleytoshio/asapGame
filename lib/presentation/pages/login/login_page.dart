@@ -1,12 +1,13 @@
 import 'package:asap_game/di/injectable.dart';
+import 'package:asap_game/presentation/app/app_controller.dart';
 import 'package:asap_game/presentation/pages/login/controller/login_controller.dart';
 import 'package:asap_game/presentation/themes/theme_colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
+import '../../../app_config.dart';
 import '../../../domain/entities/user_entity.dart';
 import '../../widgets/custom_annotated_region.dart';
 
@@ -43,19 +44,12 @@ class _SignInPageState extends State<LoginPage> {
           Validators.minLength(6),
         ],
       ),
-      // 'terms': FormControl<bool>(validators: [
-      //   Validators.required,
-      // ]),
-    });
-    formLogin.valueChanges.listen((event) {
-      print('aaaaaaaaaaaaaaaaaaaa');
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomAnnotationRegion(
-      brightness: Brightness.dark,
       child: Scaffold(
         body: ReactiveForm(
           formGroup: formLogin,
@@ -79,7 +73,6 @@ class _SignInPageState extends State<LoginPage> {
                   ),
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontWeight: FontWeight.normal,
-                        color: Colors.black54,
                       ),
                 ),
                 const SizedBox(height: 10),
@@ -143,7 +136,7 @@ class _SignInPageState extends State<LoginPage> {
                       shape: ContinuousRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       )),
-                  onPressed: submitSignIn,
+                  onPressed: submitSignInGoogle,
                   child: Row(
                     children: [
                       Icon(Ionicons.logo_google),
@@ -186,12 +179,20 @@ class _SignInPageState extends State<LoginPage> {
     //                   msg: "invalid email", scaffoldState: _scaffoldGlobalKey);
   }
 
-  void submitSignIn() {
-    controller.signInWithEmailAndPassword(
+  void submitSignIn() async {
+    await controller.signInWithEmailAndPassword(
         user: UserEntity(
       email: formLogin.control('email').value,
       password: formLogin.control('password').value,
     ));
+
+    AppConfig.instance.appRouter.replaceNamed('/players');
+  }
+
+  void submitSignInGoogle() async {
+    getIt<AppController>().setThemeData(ThemeData.light());
+    // await controller.signInWithGoogle();
+    // AppConfig.instance.appRouter.replaceNamed('/players');
   }
 }
 

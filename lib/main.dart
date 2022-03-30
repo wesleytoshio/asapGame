@@ -15,7 +15,7 @@ Future<void> main() async {
   final AppRouter _appRouter = AppRouter();
   AppConfig(
     flavor: Flavor.dev,
-    baseUrl: 'http://104.248.61.74:8080/v1/graphql',
+    baseUrl: 'api',
     appRouter: _appRouter,
   );
   runApp(AppWidget(

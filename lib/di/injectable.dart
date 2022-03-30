@@ -15,6 +15,6 @@ final getIt = GetIt.instance;
 Future<void> init() async {
   await Hive.initFlutter();
   await Hive.openBox(HiveBox.user);
-
+  await Hive.openBox(HiveBox.settings);
   $initGetIt(getIt);
 }
