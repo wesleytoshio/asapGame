@@ -3,6 +3,7 @@ import 'package:asap_game/presentation/pages/login/controller/login_controller.d
 import 'package:asap_game/presentation/themes/theme_const.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -68,11 +69,14 @@ class _SignInPageState extends State<LoginPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Color(primaryColor),
+                            letterSpacing: 0,
                           )),
                     ],
                   ),
                   style: Theme.of(context).textTheme.headline4!.copyWith(
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        letterSpacing: -3,
                       ),
                 ),
                 const SizedBox(height: 10),
@@ -80,6 +84,28 @@ class _SignInPageState extends State<LoginPage> {
                     style: Theme.of(context).textTheme.subtitle1!.copyWith(
                         color: Colors.grey, fontWeight: FontWeight.normal)),
                 const SizedBox(height: 20),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        formLogin.value = {
+                          'email': 'wesley@wesleydev.com',
+                          'password': '123456',
+                        };
+                      },
+                      child: Text('Login with Wesley'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        formLogin.value = {
+                          'email': 'soraia@gmail.com',
+                          'password': '111111',
+                        };
+                      },
+                      child: Text('Login with Soraia'),
+                    ),
+                  ],
+                ),
                 CustomReactiveTextField(
                   formControlName: 'email',
                   labelText: "Email address",
@@ -140,12 +166,14 @@ class _SignInPageState extends State<LoginPage> {
                   ),
                   onPressed: submitSignInGoogle,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Ionicons.logo_google),
-                      Expanded(
-                        flex: 5,
-                        child: Center(child: Text("Continuar com Google")),
+                      SvgPicture.asset(
+                        'assets/providers/google_g_icon.svg',
+                        width: 22,
                       ),
+                      const SizedBox(width: 10),
+                      Center(child: Text("Continuar com Google")),
                       Icon(
                         Ionicons.logo_google,
                         color: Colors.transparent,
@@ -185,15 +213,12 @@ class _SignInPageState extends State<LoginPage> {
   void submitSignIn() async {
     await controller.signInWithEmailAndPassword(
         user: UserEntity(
-      email: formLogin.control('email').value,
-      password: formLogin.control('password').value,
+      email: formLogin.control('email').value?.trim(),
+      password: formLogin.control('password').value?.trim(),
     ));
-
-    AppConfig.instance.appRouter.replaceNamed('/players');
   }
 
   void submitSignInGoogle() async {
     await controller.signInWithGoogle();
-    AppConfig.instance.appRouter.replaceNamed('/players');
   }
 }

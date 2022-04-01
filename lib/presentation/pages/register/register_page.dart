@@ -207,12 +207,12 @@ class _SignInPageState extends State<RegisterPage> {
         name: formLogin.control('name').value,
       ));
 
-      AppConfig.instance.appRouter.replaceNamed('/players');
+      AppConfig.instance.appRouter.replaceNamed('/home');
     }
   }
 
   void submitSignInGoogle() async {
     await controller.signInWithGoogle();
-    AppConfig.instance.appRouter.replaceNamed('/players');
+    AppConfig.instance.appRouter.replaceNamed('/home');
   }
 }

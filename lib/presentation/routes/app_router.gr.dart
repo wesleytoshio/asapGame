@@ -53,7 +53,7 @@ class _$AppRouter extends RootStackRouter {
   List<RouteConfig> get routes => [
         RouteConfig(SplashPageRoute.name, path: '/'),
         RouteConfig(LoginPageRoute.name, path: '/login'),
-        RouteConfig(PlayersPageRoute.name, path: '/players'),
+        RouteConfig(PlayersPageRoute.name, path: '/home'),
         RouteConfig(RegisterPageRoute.name, path: '/register'),
         RouteConfig(GamePageRoute.name, path: '/game/:id'),
         RouteConfig(NoPageRoute.name, path: '/nopage')
@@ -95,7 +95,7 @@ class LoginPageRouteArgs {
 /// generated route for
 /// [PlayersPage]
 class PlayersPageRoute extends PageRouteInfo<void> {
-  const PlayersPageRoute() : super(PlayersPageRoute.name, path: '/players');
+  const PlayersPageRoute() : super(PlayersPageRoute.name, path: '/home');
 
   static const String name = 'PlayersPageRoute';
 }

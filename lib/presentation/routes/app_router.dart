@@ -14,7 +14,7 @@ part 'app_router.gr.dart';
   routes: <AutoRoute>[
     AutoRoute(page: SplashPage, path: '/', initial: true),
     AutoRoute(page: LoginPage, path: '/login'),
-    AutoRoute(page: PlayersPage, path: '/players'),
+    AutoRoute(page: PlayersPage, path: '/home'),
     AutoRoute(page: RegisterPage, path: '/register'),
     AutoRoute(page: GamePage, path: '/game/:id'),
     AutoRoute(page: NoPage, path: '/nopage'),

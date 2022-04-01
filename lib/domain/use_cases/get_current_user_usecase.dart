@@ -1,5 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../infra/exceptions/auth_failure.dart';
 import '../entities/user_entity.dart';
 import '../repositories/firebase_auth_repository.dart';
 
@@ -9,7 +11,7 @@ class GetCurrentUserUseCase {
 
   GetCurrentUserUseCase({required this.repository});
 
-  Future<UserEntity> call() async {
+  Future<Either<AuthFailure, UserEntity>> call() async {
     return repository.getCurrentUser();
   }
 }

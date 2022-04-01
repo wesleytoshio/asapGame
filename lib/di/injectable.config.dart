@@ -78,10 +78,12 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       get<_i15.IsSignInUseCase>(),
       get<_i19.SignOutUseCase>()));
   gh.factory<_i22.LoginController>(() => _i22.LoginController(
-      get<_i14.GetCurrentUserUseCase>(),
       signInGoogleUseCase: get<_i17.SignInGoogleUseCase>(),
+      signOutUseCase: get<_i19.SignOutUseCase>(),
       signUPUseCase: get<_i20.SignUPUseCase>(),
       signInUseCase: get<_i18.SignInUseCase>(),
+      getCurrentUserUseCase: get<_i14.GetCurrentUserUseCase>(),
+      appController: get<_i21.AppController>(),
       saveCurrentUserUsecase: get<_i16.SaveCurrentUserUsecase>()));
   return get;
 }
