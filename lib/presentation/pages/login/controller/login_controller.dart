@@ -38,12 +38,16 @@ abstract class _LoginControllerBase with Store {
   @observable
   Option<AuthFailure>? failure;
 
+  @observable
+  bool isLoading = false;
+
   Future<void> signInWithEmailAndPassword({required UserEntity user}) async {
+    isLoading = true;
     var resultSignIn = await signInUseCase(user);
     resultSignIn.fold(
       (failure) {
         failure as AuthServerErrorFailure;
-        print(failure.error);
+        isLoading = false;
       },
       (result) async => await getUserInfo(),
     );
@@ -53,36 +57,35 @@ abstract class _LoginControllerBase with Store {
     var resultGetCurrentUser = await getCurrentUserUseCase();
     resultGetCurrentUser.fold((failure) {
       failure as AuthServerErrorFailure;
-      print(failure.error);
+      isLoading = false;
     }, (useEntity) {
+      isLoading = true;
       appController.setUser(useEntity);
       AppConfig.instance.appRouter.replaceNamed('/home');
     });
   }
 
   Future<void> signInWithGoogle() async {
+    isLoading = true;
     var resultSignInGoogle = await signInGoogleUseCase();
     resultSignInGoogle.fold(
       (failure) {
         failure as AuthServerErrorFailure;
-        print(failure.error);
+        isLoading = false;
       },
       (result) async => await getUserInfo(),
     );
   }
 
   Future<void> signUpWithEmailAndPassword({required UserEntity user}) async {
-    try {
-      var resultsignUPUseCase = await signUPUseCase.call(user);
-      resultsignUPUseCase.fold(
-        (failure) {
-          failure as AuthServerErrorFailure;
-          print(failure.error);
-        },
-        (result) async => await getUserInfo(),
-      );
-    } catch (_) {
-      print(_);
-    }
+    isLoading = true;
+    var resultsignUPUseCase = await signUPUseCase.call(user);
+    resultsignUPUseCase.fold(
+      (failure) {
+        failure as AuthServerErrorFailure;
+        isLoading = false;
+      },
+      (result) async => await getUserInfo(),
+    );
   }
 }

@@ -24,10 +24,26 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
+  final _$isLoadingAtom = Atom(name: '_LoginControllerBase.isLoading');
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
-failure: ${failure}
+failure: ${failure},
+isLoading: ${isLoading}
     ''';
   }
 }
