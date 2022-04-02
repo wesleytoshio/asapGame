@@ -1,3 +1,4 @@
+import 'package:asap_game/app_config.dart';
 import 'package:asap_game/domain/entities/user_entity.dart';
 import 'package:asap_game/presentation/themes/theme_const.dart';
 import 'package:flutter/material.dart';
@@ -120,52 +121,55 @@ class InvitationPending extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
       shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      child: Padding(
-        padding: const EdgeInsets.all(kDefaultPadding),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text.rich(
-                    TextSpan(
-                      text: 'Você foi convidado a desafiar ',
-                      children: [
-                        TextSpan(
-                          text: 'Soraia',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: () => AppConfig.instance.appRouter.pushNamed('/game/1'),
+        child: Padding(
+          padding: const EdgeInsets.all(kDefaultPadding),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Você foi convidado a desafiar ',
+                        children: [
+                          TextSpan(
+                            text: 'Soraia',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: ' em ',
-                        ),
-                        TextSpan(
-                          text: 'Múltipla escolha',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.amber[900],
+                          TextSpan(
+                            text: ' em ',
                           ),
-                        )
-                      ],
+                          TextSpan(
+                            text: 'Múltipla escolha',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.amber[900],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                ClipOval(
-                  child: Image.network(
-                    'https://i.pravatar.cc/150?img=24',
-                    fit: BoxFit.cover,
-                    width: 40,
-                    height: 40,
-                  ),
-                )
-              ],
-            ),
-            Divider(
-              height: kDefaultPadding,
-            ),
-            Text('350 pontos ao vencedor jogo!')
-          ],
+                  ClipOval(
+                    child: Image.network(
+                      'https://i.pravatar.cc/150?img=24',
+                      fit: BoxFit.cover,
+                      width: 40,
+                      height: 40,
+                    ),
+                  )
+                ],
+              ),
+              Divider(
+                height: kDefaultPadding,
+              ),
+              Text('350 pontos ao vencedor jogo!')
+            ],
+          ),
         ),
       ),
     );

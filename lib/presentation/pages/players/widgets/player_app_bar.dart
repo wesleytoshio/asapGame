@@ -40,17 +40,8 @@ class PlayerSliveAppBarFlexible extends StatelessWidget {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          Center(
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 55,
-                              child: CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage(appController.user!.picture!),
-                                radius: 50,
-                              ),
-                            ),
-                          ),
+                          CustomCircleAvatar(
+                              imagePath: appController.user!.picture!),
                           Align(
                             alignment: Alignment.bottomRight,
                             child: Padding(
@@ -96,5 +87,27 @@ class PlayerSliveAppBarFlexible extends StatelessWidget {
         }),
       );
     });
+  }
+}
+
+class CustomCircleAvatar extends StatelessWidget {
+  final String? imagePath;
+  const CustomCircleAvatar({
+    Key? key,
+    this.imagePath,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircleAvatar(
+        backgroundColor: Colors.white,
+        radius: 55,
+        child: CircleAvatar(
+          backgroundImage: NetworkImage(imagePath!),
+          radius: 50,
+        ),
+      ),
+    );
   }
 }
