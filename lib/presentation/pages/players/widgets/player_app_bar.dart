@@ -1,7 +1,6 @@
 import 'package:asap_game/di/injectable.dart';
 import 'package:asap_game/presentation/app/app_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../../../app_config.dart';
@@ -15,7 +14,7 @@ class PlayerSliveAppBarFlexible extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppController appController = getIt<AppController>();
-    return Observer(builder: (context) {
+    return Builder(builder: (context) {
       return SliverAppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

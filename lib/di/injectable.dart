@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../infra/constants/storage/hive_box.dart';
 import 'injectable.config.dart';
 
-final getIt = GetIt.instance;
+final getIt = GetIt.I;
 
 @InjectableInit(
   initializerName: r'$initGetIt', // default
