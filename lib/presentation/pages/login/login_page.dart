@@ -173,7 +173,7 @@ class _SignInPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            'assets/providers/google_g_icon.svg',
+                            'assets/images/providers/google_g_icon.svg',
                             width: 22,
                           ),
                           const SizedBox(width: 10),

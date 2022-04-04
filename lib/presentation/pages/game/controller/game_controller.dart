@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
@@ -28,6 +29,12 @@ abstract class _GameControllerBase with Store {
 
   @observable
   Timer? _timer;
+
+  AudioCache sound =
+      AudioCache(fixedPlayer: AudioPlayer(mode: PlayerMode.LOW_LATENCY));
+  _GameControllerBase() {
+    sound.fixedPlayer!.setVolume(0.1);
+  }
 
   @action
   startTimeLeft({Duration duration = const Duration(seconds: 1)}) {

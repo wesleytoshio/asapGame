@@ -79,7 +79,7 @@ dependencies:
   flutter_svg: ^1.0.3
 
   #Sound
-  sound_library: ^0.1.1
+  audioplayers: ^0.20.1
 
 
   #Layout
@@ -117,7 +117,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/providers/
+    - assets/
+    - assets/images/providers/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

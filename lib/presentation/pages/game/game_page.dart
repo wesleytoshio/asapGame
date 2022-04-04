@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:asap_game/infra/constants/global/sounds.dart';
 import 'package:asap_game/presentation/pages/game/controller/game_controller.dart';
 import 'package:asap_game/presentation/themes/theme_const.dart';
 import 'package:breathing_collection/breathing_collection.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
-import 'package:sound_library/sound_library.dart';
 
 import '../../../di/injectable.dart';
 import '../../widgets/animations/boucing.dart';
@@ -50,12 +50,14 @@ class _GamePageState extends State<GamePage> with TickerProviderStateMixin {
     });
     //_playgroundAnimationController.forward();
 
-    reaction((_) => controller.state, (_) {
+    reaction((_) => controller.state, (_) async {
       controller.shiftEnded = false;
       if (identical(controller.state, GameState.interval)) {
         _playgroundAnimationController.reverse();
+        await controller.sound.play(SoundsEffects.timer);
       } else if (identical(controller.state, GameState.timeleft) &&
           !controller.shiftEnded) {
+        await controller.sound.play(SoundsEffects.round);
         _playgroundAnimationController.forward();
       }
     });
@@ -225,8 +227,9 @@ class _GamePageState extends State<GamePage> with TickerProviderStateMixin {
                                             color: Colors.white, width: 2),
                                       )),
                                   onPressed: () async {
-                                    SoundPlayer.setAudioEnabled(true);
-                                    SoundPlayer.i.play(Sounds.click);
+                                    await controller.sound
+                                        .play(SoundsEffects.beep);
+
                                     controller.startTimeLeft();
                                   },
                                   child: Text(controller.state != GameState.none
@@ -295,7 +298,7 @@ class _GamePageState extends State<GamePage> with TickerProviderStateMixin {
                                 text: controller.timeleft.toString(),
                                 children: [
                                   TextSpan(
-                                    text: 'seg.',
+                                    text: '',
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ],
