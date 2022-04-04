@@ -24,9 +24,11 @@ class PlayerInGameCard extends StatelessWidget {
 }
 
 class PlayerInGameCardAvatar extends StatelessWidget {
+  final double size;
   const PlayerInGameCardAvatar({
     Key? key,
     required this.player,
+    this.size = 45,
   }) : super(key: key);
 
   final UserEntity player;
@@ -34,7 +36,7 @@ class PlayerInGameCardAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatarWithBadge(
-      size: 45,
+      size: size,
       backgroundImage: NetworkImage(player.picture!),
       borderOffset: .9,
       position: Offset(-16, -16),
@@ -90,16 +92,13 @@ class PlayerInGameName extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.subtitle1!.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
                 ),
           ),
           Text(
             'Ranking 16',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: Colors.white,
-                ),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
           ),
         ],
       ),

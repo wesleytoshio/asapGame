@@ -21,7 +21,7 @@ abstract class _GameControllerBase with Store {
   int timeleft = 10;
 
   @observable
-  GameState state = GameState.interval;
+  GameState state = GameState.none;
 
   @observable
   bool shiftEnded = true;
@@ -34,7 +34,7 @@ abstract class _GameControllerBase with Store {
     shiftEnded = false;
     cancelTimeLeft();
     state = GameState.timeleft;
-    timeleft = 10;
+    timeleft = 3;
     _timer = Timer.periodic(
       duration,
       (Timer timer) {
