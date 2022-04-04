@@ -54,10 +54,10 @@ class _GamePageState extends State<GamePage> with TickerProviderStateMixin {
       controller.shiftEnded = false;
       if (identical(controller.state, GameState.interval)) {
         _playgroundAnimationController.reverse();
-        await controller.sound.play(SoundsEffects.timer);
+        await controller.playSound(SoundsEffects.timer);
       } else if (identical(controller.state, GameState.timeleft) &&
           !controller.shiftEnded) {
-        await controller.sound.play(SoundsEffects.round);
+        await controller.playSound(SoundsEffects.round);
         _playgroundAnimationController.forward();
       }
     });
@@ -179,93 +179,103 @@ class _GamePageState extends State<GamePage> with TickerProviderStateMixin {
                 }),
                 Padding(
                   padding: const EdgeInsets.all(kDefaultPadding),
-                  child: SlideInUp(
-                    delay: Duration(milliseconds: 270),
-                    child: Row(
-                      children: [
-                        Bouncing(
-                          onPressed: () {
-                            controller.state = GameState.timeleft;
-                          },
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: Size(
-                                  50,
-                                  50,
+                  child: Observer(builder: (context) {
+                    return SlideInUp(
+                      delay: Duration(milliseconds: 270),
+                      child: Row(
+                        children: [
+                          Bouncing(
+                            onPressed: controller.setSound,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(
+                                    50,
+                                    50,
+                                  ),
+                                  primary: Colors.white,
+                                  shape: ContinuousRectangleBorder(
+                                    borderRadius: BorderRadius.circular(35),
+                                  )),
+                              onPressed: () {},
+                              child: Visibility(
+                                visible: controller.soundOn,
+                                child: Icon(
+                                  Ionicons.volume_high_outline,
+                                  color: Colors.black,
                                 ),
-                                primary: Colors.white,
-                                textStyle: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                                shape: ContinuousRectangleBorder(
-                                  borderRadius: BorderRadius.circular(35),
-                                )),
-                            onPressed: () {},
-                            child: const Icon(Ionicons.volume_mute_outline,
-                                color: Colors.black),
-                          ),
-                        ),
-                        Observer(builder: (context) {
-                          return Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Bouncing(
-                                onPressed: () {},
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(
-                                        0,
-                                        50,
-                                      ),
-                                      primary: Colors.green.shade400,
-                                      textStyle: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                      shape: ContinuousRectangleBorder(
-                                        borderRadius: BorderRadius.circular(35),
-                                        side: BorderSide(
-                                            color: Colors.white, width: 2),
-                                      )),
-                                  onPressed: () async {
-                                    await controller.sound
-                                        .play(SoundsEffects.beep);
-
-                                    controller.startTimeLeft();
-                                  },
-                                  child: Text(controller.state != GameState.none
-                                      ? "Confirmar"
-                                      : "Iniciar"),
+                                replacement: Icon(
+                                  Ionicons.volume_mute_outline,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
-                          );
-                        }),
-                        Bouncing(
-                          onPressed: () {},
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: Size(
-                                  50,
-                                  50,
-                                ),
-                                primary: Colors.white,
-                                elevation: 2,
-                                textStyle: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                                shape: ContinuousRectangleBorder(
-                                  borderRadius: BorderRadius.circular(35),
-                                )),
-                            onPressed: () {
-                              controller.state = GameState.interval;
-                            },
-                            child: const Icon(
-                                Ionicons.chatbubble_ellipses_outline,
-                                color: Colors.black),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
+                          Observer(builder: (context) {
+                            return Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Bouncing(
+                                  onPressed: () {},
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        minimumSize: Size(
+                                          0,
+                                          50,
+                                        ),
+                                        primary: Colors.green.shade400,
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                        shape: ContinuousRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(35),
+                                          side: BorderSide(
+                                              color: Colors.white, width: 2),
+                                        )),
+                                    onPressed: () async {
+                                      await controller
+                                          .playSound(SoundsEffects.beep);
+
+                                      controller.startTimeLeft();
+                                    },
+                                    child: Text(
+                                        controller.state != GameState.none
+                                            ? "Confirmar"
+                                            : "Iniciar"),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                          Bouncing(
+                            onPressed: () {},
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(
+                                    50,
+                                    50,
+                                  ),
+                                  primary: Colors.white,
+                                  elevation: 2,
+                                  textStyle: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                  shape: ContinuousRectangleBorder(
+                                    borderRadius: BorderRadius.circular(35),
+                                  )),
+                              onPressed: () {
+                                controller.state = GameState.interval;
+                              },
+                              child: const Icon(
+                                  Ionicons.chatbubble_ellipses_outline,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
                 )
               ],
             ),

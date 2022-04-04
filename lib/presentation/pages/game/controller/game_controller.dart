@@ -28,13 +28,10 @@ abstract class _GameControllerBase with Store {
   bool shiftEnded = true;
 
   @observable
-  Timer? _timer;
+  bool soundOn = true;
 
-  AudioCache sound =
-      AudioCache(fixedPlayer: AudioPlayer(mode: PlayerMode.LOW_LATENCY));
-  _GameControllerBase() {
-    sound.fixedPlayer!.setVolume(0.1);
-  }
+  @observable
+  Timer? _timer;
 
   @action
   startTimeLeft({Duration duration = const Duration(seconds: 1)}) {
@@ -79,5 +76,16 @@ abstract class _GameControllerBase with Store {
   @action
   cancelTimeLeft() {
     _timer?.cancel();
+  }
+
+  @action
+  setSound() => soundOn = !soundOn;
+  Future<void> playSound(String path) async {
+    if (soundOn) {
+      AudioCache _playerCache =
+          AudioCache(fixedPlayer: AudioPlayer(mode: PlayerMode.LOW_LATENCY));
+      _playerCache.fixedPlayer!.setVolume(0.1);
+      _playerCache.play(path);
+    }
   }
 }

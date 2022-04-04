@@ -54,6 +54,21 @@ mixin _$GameController on _GameControllerBase, Store {
     });
   }
 
+  final _$soundOnAtom = Atom(name: '_GameControllerBase.soundOn');
+
+  @override
+  bool get soundOn {
+    _$soundOnAtom.reportRead();
+    return super.soundOn;
+  }
+
+  @override
+  set soundOn(bool value) {
+    _$soundOnAtom.reportWrite(value, super.soundOn, () {
+      super.soundOn = value;
+    });
+  }
+
   final _$_timerAtom = Atom(name: '_GameControllerBase._timer');
 
   @override
@@ -106,11 +121,23 @@ mixin _$GameController on _GameControllerBase, Store {
   }
 
   @override
+  dynamic setSound() {
+    final _$actionInfo = _$_GameControllerBaseActionController.startAction(
+        name: '_GameControllerBase.setSound');
+    try {
+      return super.setSound();
+    } finally {
+      _$_GameControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 timeleft: ${timeleft},
 state: ${state},
-shiftEnded: ${shiftEnded}
+shiftEnded: ${shiftEnded},
+soundOn: ${soundOn}
     ''';
   }
 }
