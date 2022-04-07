@@ -5,33 +5,33 @@
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$GameController on _GameControllerBase, Store {
-  final _$timeleftAtom = Atom(name: '_GameControllerBase.timeleft');
+  final _$stopwatchAtom = Atom(name: '_GameControllerBase.stopwatch');
 
   @override
-  int get timeleft {
-    _$timeleftAtom.reportRead();
-    return super.timeleft;
+  int get stopwatch {
+    _$stopwatchAtom.reportRead();
+    return super.stopwatch;
   }
 
   @override
-  set timeleft(int value) {
-    _$timeleftAtom.reportWrite(value, super.timeleft, () {
-      super.timeleft = value;
+  set stopwatch(int value) {
+    _$stopwatchAtom.reportWrite(value, super.stopwatch, () {
+      super.stopwatch = value;
     });
   }
 
-  final _$stateAtom = Atom(name: '_GameControllerBase.state');
+  final _$currentRoundAtom = Atom(name: '_GameControllerBase.currentRound');
 
   @override
-  GameState get state {
-    _$stateAtom.reportRead();
-    return super.state;
+  RoundEntity get currentRound {
+    _$currentRoundAtom.reportRead();
+    return super.currentRound;
   }
 
   @override
-  set state(GameState value) {
-    _$stateAtom.reportWrite(value, super.state, () {
-      super.state = value;
+  set currentRound(RoundEntity value) {
+    _$currentRoundAtom.reportWrite(value, super.currentRound, () {
+      super.currentRound = value;
     });
   }
 
@@ -65,6 +65,21 @@ mixin _$GameController on _GameControllerBase, Store {
     });
   }
 
+  final _$answersAtom = Atom(name: '_GameControllerBase.answers');
+
+  @override
+  ObservableList<dynamic> get answers {
+    _$answersAtom.reportRead();
+    return super.answers;
+  }
+
+  @override
+  set answers(ObservableList<dynamic> value) {
+    _$answersAtom.reportWrite(value, super.answers, () {
+      super.answers = value;
+    });
+  }
+
   final _$_timerAtom = Atom(name: '_GameControllerBase._timer');
 
   @override
@@ -84,11 +99,22 @@ mixin _$GameController on _GameControllerBase, Store {
       ActionController(name: '_GameControllerBase');
 
   @override
-  dynamic startTimeLeft({Duration duration = const Duration(seconds: 1)}) {
+  dynamic startTimeLeft({int duration = 20}) {
     final _$actionInfo = _$_GameControllerBaseActionController.startAction(
         name: '_GameControllerBase.startTimeLeft');
     try {
       return super.startTimeLeft(duration: duration);
+    } finally {
+      _$_GameControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic stopwatchPlayers({int duration = 5}) {
+    final _$actionInfo = _$_GameControllerBaseActionController.startAction(
+        name: '_GameControllerBase.stopwatchPlayers');
+    try {
+      return super.stopwatchPlayers(duration: duration);
     } finally {
       _$_GameControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -117,6 +143,28 @@ mixin _$GameController on _GameControllerBase, Store {
   }
 
   @override
+  dynamic saveAnswer(dynamic value) {
+    final _$actionInfo = _$_GameControllerBaseActionController.startAction(
+        name: '_GameControllerBase.saveAnswer');
+    try {
+      return super.saveAnswer(value);
+    } finally {
+      _$_GameControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic send() {
+    final _$actionInfo = _$_GameControllerBaseActionController.startAction(
+        name: '_GameControllerBase.send');
+    try {
+      return super.send();
+    } finally {
+      _$_GameControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setSound() {
     final _$actionInfo = _$_GameControllerBaseActionController.startAction(
         name: '_GameControllerBase.setSound');
@@ -130,10 +178,11 @@ mixin _$GameController on _GameControllerBase, Store {
   @override
   String toString() {
     return '''
-timeleft: ${timeleft},
-state: ${state},
+stopwatch: ${stopwatch},
+currentRound: ${currentRound},
 shiftEnded: ${shiftEnded},
-soundOn: ${soundOn}
+soundOn: ${soundOn},
+answers: ${answers}
     ''';
   }
 }
