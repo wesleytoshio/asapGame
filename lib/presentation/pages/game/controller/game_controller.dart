@@ -1,15 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../domain/entities/round_content_entity.dart';
 import '../../../../domain/entities/round_entity.dart';
 
 part 'game_controller.g.dart';
 
 enum GameStage {
-  none,
   waiting,
   responding,
   interval,
@@ -37,29 +39,48 @@ abstract class _GameControllerBase with Store {
   @observable
   Timer? _timer;
 
+  List<RoundContentEntity> questions = [];
+
+  int currentStage = 0;
+  int totalStage = 0;
+
   @action
-  startTimeLeft({int duration = 20}) {
+  startTimeLeft({int duration = 20}) async {
+    print('round $currentStage');
     shiftEnded = false;
-    cancelTimeLeft();
-    currentRound = RoundEntity(stage: GameStage.responding, stopwatch: 10);
-    stopwatch = currentRound.stopwatch;
-    _timer = Timer.periodic(
-      Duration(seconds: 1),
-      (Timer timer) {
-        if (stopwatch == 0) {
-          startInterval();
-          //cancelTimeLeft();
-        } else {
-          stopwatch--;
-        }
-      },
-    );
+    if (hasMoreRounds) {
+      cancelTimer();
+      currentRound = RoundEntity(
+        stage: GameStage.responding,
+        stopwatch: 5,
+        content: questions.elementAt(currentStage),
+      );
+
+      currentStage++;
+      stopwatch = currentRound.stopwatch;
+      _timer = Timer.periodic(
+        Duration(seconds: 1),
+        (Timer timer) {
+          if (stopwatch == 0) {
+            startInterval();
+          } else {
+            stopwatch--;
+          }
+        },
+      );
+    }
   }
 
   @action
-  stopwatchPlayers({int duration = 5}) {
-    cancelTimeLeft();
-    currentRound = RoundEntity(stage: GameStage.waiting, stopwatch: 5);
+  stopwatchPlayers({int duration = 5}) async {
+    cancelTimer();
+    final String response = await rootBundle.loadString('assets/data.json');
+    final _questions = await json.decode(response);
+    for (var q in _questions) {
+      questions.add(RoundContentEntity.fromMap(q));
+    }
+    totalStage = questions.length;
+    currentRound = currentRound.copyWith(stopwatch: 5);
     stopwatch = currentRound.stopwatch;
     _timer = Timer.periodic(
       Duration(seconds: 1),
@@ -75,25 +96,30 @@ abstract class _GameControllerBase with Store {
 
   @action
   startInterval({Duration duration = const Duration(seconds: 1)}) {
-    shiftEnded = false;
-    cancelTimeLeft();
-    currentRound = RoundEntity(stage: GameStage.interval, stopwatch: 5);
-    stopwatch = currentRound.stopwatch;
-    _timer = Timer.periodic(
-      duration,
-      (Timer timer) {
-        if (stopwatch == 0) {
-          startTimeLeft();
-          timer.cancel();
-        } else {
-          stopwatch--;
-        }
-      },
-    );
+    if (hasMoreRounds) {
+      shiftEnded = false;
+      cancelTimer();
+      currentRound = RoundEntity(stage: GameStage.interval, stopwatch: 5);
+      stopwatch = currentRound.stopwatch;
+
+      _timer = Timer.periodic(
+        Duration(seconds: 1),
+        (Timer timer) {
+          if (stopwatch == 0) {
+            startTimeLeft();
+          } else {
+            stopwatch--;
+          }
+        },
+      );
+    } else {
+      cancelTimer();
+      currentRound = RoundEntity(stage: GameStage.finish, stopwatch: 5);
+      //AppConfig.instance.appRouter.pop();
+    }
   }
 
-  @action
-  cancelTimeLeft() {
+  cancelTimer() {
     _timer?.cancel();
   }
 
@@ -119,4 +145,6 @@ abstract class _GameControllerBase with Store {
       _playerCache.play(path);
     }
   }
+
+  bool get hasMoreRounds => currentStage < questions.length;
 }

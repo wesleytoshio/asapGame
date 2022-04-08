@@ -9,6 +9,8 @@ class CircleAvatarWithBadge extends StatelessWidget {
   final EdgeInsetsGeometry badgePadding;
   final Color? badgeBackgroundColor;
   final double scale;
+  final double badgeScale;
+  final double badgeElevation;
   final Widget? child;
   final ImageProvider<Object>? backgroundImage;
   final BoxConstraints badgeConstraints;
@@ -25,6 +27,7 @@ class CircleAvatarWithBadge extends StatelessWidget {
     this.position = const Offset(0, 0),
     this.onPressedBadge,
     this.scale = 1,
+    this.badgeScale = 1,
     this.badgePadding = EdgeInsets.zero,
     this.badgeBackgroundColor,
     this.borderOffset = .5,
@@ -32,15 +35,17 @@ class CircleAvatarWithBadge extends StatelessWidget {
     this.badgeConstraints = const BoxConstraints(minHeight: 30, minWidth: 30),
     this.badgeDelay = const Duration(milliseconds: 0),
     this.backgroundColor = Colors.white,
+    this.badgeElevation = 2,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Transform.scale(
       scale: scale,
+      origin: Offset(0, 0),
       child: SizedBox(
-        height: size,
         width: size,
+        height: size,
         child: Stack(
           clipBehavior: Clip.none,
           fit: StackFit.expand,
@@ -62,7 +67,7 @@ class CircleAvatarWithBadge extends StatelessWidget {
                     delay: badgeDelay,
                     child: RawMaterialButton(
                       onPressed: onPressedBadge,
-                      elevation: 2.0,
+                      elevation: badgeElevation,
                       fillColor: badgeBackgroundColor,
                       child: badge,
                       constraints: badgeConstraints,

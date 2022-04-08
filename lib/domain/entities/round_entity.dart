@@ -1,28 +1,33 @@
 import 'package:asap_game/presentation/pages/game/controller/game_controller.dart';
 
+import 'round_content_entity.dart';
+
 class RoundEntity {
   final GameStage stage;
   final int stopwatch;
   final dynamic answer;
-  final bool? heResponded;
+  final RoundContentEntity? content;
+  final bool heResponded;
   RoundEntity({
-    this.stage = GameStage.none,
+    this.stage = GameStage.waiting,
     this.stopwatch = 0,
-    this.heResponded,
+    this.heResponded = false,
     this.answer,
+    this.content,
   });
 
-  copyWith({
-    GameStage? stage,
-    int? stopwatch,
-    bool? heResponded,
-    String? answer,
-  }) {
+  RoundEntity copyWith(
+      {GameStage? stage,
+      int? stopwatch,
+      bool? heResponded,
+      answer,
+      RoundContentEntity? content}) {
     return RoundEntity(
       stage: stage ?? this.stage,
       answer: answer ?? this.answer,
       stopwatch: stopwatch ?? this.stopwatch,
       heResponded: heResponded ?? this.heResponded,
+      content: content ?? this.content,
     );
   }
 }

@@ -1,0 +1,116 @@
+[
+    {
+        "uuid": "398bfe72-b6a2-11ec-b909-0242ac120002",
+        "question": "Normalmente, quantos litros de sangue uma pessoa tem? Em média, quantos são retirados numa doação de sangue?",
+        "options": [
+            {
+                "uuid": "42750c4a-b6a2-11ec-b909-0242ac120002",
+                "option": "Tem entre 2 a 4 litros. São retirados 450 mililitros",
+                "correct": false,
+                "select": false
+            },
+            {
+                "uuid": "4635a02e-b6a2-11ec-b909-0242ac120002",
+                "option": "Tem entre 4 a 6 litros. São retirados 450 mililitros",
+                "correct": true,
+                "select": false
+            },
+            {
+                "uuid": "4973928c-b6a2-11ec-b909-0242ac120002",
+                "option": "Tem 10 litros. São retirados 2 litros",
+                "correct": false,
+                "select": false
+            },
+            {
+                "uuid": "4c3c5256-b6a2-11ec-b909-0242ac120002",
+                "option": "Tem 7 litros. São retirados 1,5 litros",
+                "correct": false,
+                "select": false
+            },
+            {
+                "uuid": "4f9b3f52-b6a2-11ec-b909-0242ac120002",
+                "option": "Tem 0,5 litros. São retirados 0,5 litros",
+                "correct": false,
+                "select": false
+            }
+        ],
+        "answer_feedback": "Alternativa b: Entre 4 a 6 litros. São retirados 450 mililitros. A quantidade de sangue varia de pessoa para pessoa. O volume de sangue é entre 7% e 8% o peso corporal. Assim, um adulto com 50 e 80 quilos, pode ter entre 4 e 6 litros de sangue, respectivamente. Portanto, 4 a 6 litros é a alternativa que compreende a quantidade mais próxima de adultos com pesos diferentes.",
+        "marketType": "lower"
+    },
+    {
+        "uuid": "a1bac762-b6a2-11ec-b909-0242ac120002",
+        "question": "De quem é a famosa frase “Penso, logo existo”?",
+        "options": [
+            {
+                "uuid": "a5e1ad2e-b6a2-11ec-b909-0242ac120002",
+                "option": "Platão",
+                "correct": false,
+                "select": false
+            },
+            {
+                "uuid": "a93e5030-b6a2-11ec-b909-0242ac120002",
+                "option": "Galileu Galilei",
+                "correct": false,
+                "select": false
+            },
+            {
+                "uuid": "acce6046-b6a2-11ec-b909-0242ac120002",
+                "option": "Descartes",
+                "correct": true,
+                "select": false
+            },
+            {
+                "uuid": "b41797be-b6a2-11ec-b909-0242ac120002",
+                "option": "Sócrates",
+                "correct": false,
+                "select": false
+            },
+            {
+                "uuid": "b89dbf20-b6a2-11ec-b909-0242ac120002",
+                "option": "Francis Bacon",
+                "correct": false,
+                "select": false
+            }
+        ],
+        "answer_feedback": "Alternativa c: Descartes. “Je pense, donc je suis” é a frase original, escrita em francês, do filósofo René Descartes (1596-1650). Ela resume o pensamento e o método de Descartes, para quem tudo tem início na dúvida.",
+        "marketType": "roman"
+    },
+    {
+        "uuid": "e0de119c-b6a2-11ec-b909-0242ac120002",
+        "question": "Qual o livro mais vendido no mundo a seguir à Bíblia?",
+        "options": [
+            {
+                "uuid": "e9310d4a-b6a2-11ec-b909-0242ac120002",
+                "option": "O Senhor dos Anéis",
+                "correct": false,
+                "select": false
+            },
+            {
+                "uuid": "f1837cbc-b6a2-11ec-b909-0242ac120002",
+                "option": "O Pequeno Príncipe",
+                "correct": false,
+                "select": false
+            },
+            {
+                "uuid": "ed64b024-b6a2-11ec-b909-0242ac120002",
+                "option": "Dom Quixote",
+                "correct": true,
+                "select": false
+            },
+            {
+                "uuid": "f7d25ca0-b6a2-11ec-b909-0242ac120002",
+                "option": "Ela, a Feiticeira",
+                "correct": false,
+                "select": false
+            },
+            {
+                "uuid": "f7d25ca0-b6a2-11ec-b909-0242ac120002",
+                "option": "Um Conto de Duas Cidades",
+                "correct": false,
+                "select": false
+            }
+        ],
+        "answer_feedback": "Alternativa c: Dom Quixote. Dom Quixote, de Miguel de Cervantes, é um clássico da literatura espanhola. A obra foi escrita em duas partes, uma em 1605, e a outra em 1615.",
+        "marketType": "roman"
+    }
+]

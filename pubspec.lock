@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "38.0.0"
+  achievement_view:
+    dependency: "direct main"
+    description:
+      name: achievement_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   align_positioned:
     dependency: "direct main"
     description:

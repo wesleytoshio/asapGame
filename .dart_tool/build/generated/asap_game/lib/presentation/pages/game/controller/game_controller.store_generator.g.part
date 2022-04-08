@@ -95,30 +95,26 @@ mixin _$GameController on _GameControllerBase, Store {
     });
   }
 
+  final _$startTimeLeftAsyncAction =
+      AsyncAction('_GameControllerBase.startTimeLeft');
+
+  @override
+  Future startTimeLeft({int duration = 20}) {
+    return _$startTimeLeftAsyncAction
+        .run(() => super.startTimeLeft(duration: duration));
+  }
+
+  final _$stopwatchPlayersAsyncAction =
+      AsyncAction('_GameControllerBase.stopwatchPlayers');
+
+  @override
+  Future stopwatchPlayers({int duration = 5}) {
+    return _$stopwatchPlayersAsyncAction
+        .run(() => super.stopwatchPlayers(duration: duration));
+  }
+
   final _$_GameControllerBaseActionController =
       ActionController(name: '_GameControllerBase');
-
-  @override
-  dynamic startTimeLeft({int duration = 20}) {
-    final _$actionInfo = _$_GameControllerBaseActionController.startAction(
-        name: '_GameControllerBase.startTimeLeft');
-    try {
-      return super.startTimeLeft(duration: duration);
-    } finally {
-      _$_GameControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic stopwatchPlayers({int duration = 5}) {
-    final _$actionInfo = _$_GameControllerBaseActionController.startAction(
-        name: '_GameControllerBase.stopwatchPlayers');
-    try {
-      return super.stopwatchPlayers(duration: duration);
-    } finally {
-      _$_GameControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   dynamic startInterval({Duration duration = const Duration(seconds: 1)}) {
@@ -126,17 +122,6 @@ mixin _$GameController on _GameControllerBase, Store {
         name: '_GameControllerBase.startInterval');
     try {
       return super.startInterval(duration: duration);
-    } finally {
-      _$_GameControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic cancelTimeLeft() {
-    final _$actionInfo = _$_GameControllerBaseActionController.startAction(
-        name: '_GameControllerBase.cancelTimeLeft');
-    try {
-      return super.cancelTimeLeft();
     } finally {
       _$_GameControllerBaseActionController.endAction(_$actionInfo);
     }

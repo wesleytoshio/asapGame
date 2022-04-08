@@ -1,10 +1,8 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:asap_game/domain/entities/user_entity.dart';
-import 'package:asap_game/infra/constants/global/sounds.dart';
 import 'package:asap_game/presentation/pages/game/controller/game_controller.dart';
+import 'package:asap_game/presentation/pages/game/widgets/round_lobby.dart';
 import 'package:asap_game/presentation/themes/theme_const.dart';
 import 'package:breathing_collection/breathing_collection.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -12,11 +10,11 @@ import 'package:ionicons/ionicons.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../di/injectable.dart';
+import '../../../infra/constants/global/sounds.dart';
 import '../../widgets/animations/boucing.dart';
 import 'widgets/game_header.dart';
-import 'widgets/game_option.dart';
 import 'widgets/game_timeleft.dart';
-import 'widgets/player_grid_tile.dart';
+import 'widgets/round_content.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
@@ -25,52 +23,28 @@ class GamePage extends StatefulWidget {
   State<GamePage> createState() => _GamePageState();
 }
 
-class _GamePageState extends State<GamePage> with TickerProviderStateMixin {
-  late AnimationController _playgroundAnimationController;
-  late Animation<double> _playgroundAnimation;
+class _GamePageState extends State<GamePage> {
   final GameController controller = getIt.get<GameController>();
-  DocumentSnapshot? game;
+
   @override
   void initState() {
     super.initState();
     controller.stopwatchPlayers();
-    _playgroundAnimationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-    );
-    _playgroundAnimation =
-        Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _playgroundAnimationController,
-      curve: Curves.easeInOutQuad,
-    ));
-
-    _playgroundAnimationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        // _playgroundAnimationController.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        //_playgroundAnimationController.forward();
-      }
-    });
-    //_playgroundAnimationController.forward();
-
     reaction((_) => controller.currentRound.stage, (_) async {
       controller.shiftEnded = false;
       if (identical(controller.currentRound.stage, GameStage.interval)) {
-        _playgroundAnimationController.reverse();
         await controller.playSound(SoundsEffects.timer);
       } else if (identical(
               controller.currentRound.stage, GameStage.responding) &&
           !controller.shiftEnded) {
         await controller.playSound(SoundsEffects.round);
-        _playgroundAnimationController.forward();
       }
     });
   }
 
   @override
   void dispose() {
-    _playgroundAnimationController.dispose();
-    controller.cancelTimeLeft();
+    controller.cancelTimer();
     getIt.resetLazySingleton<GameController>();
     super.dispose();
   }
@@ -94,123 +68,18 @@ class _GamePageState extends State<GamePage> with TickerProviderStateMixin {
             Column(
               children: [
                 const SizedBox(height: 70),
-                Observer(builder: (context) {
-                  print(controller.currentRound.stage.toString());
-                  return Expanded(
-                    child: Visibility(
-                      visible:
-                          controller.currentRound.stage != GameStage.waiting,
-                      replacement: Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Observer(builder: (context) {
-                              return Text(
-                                controller.stopwatch.toString(),
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline2!
-                                    .copyWith(color: Colors.black),
-                              );
-                            }),
-                            Text(
-                              'Aguardando jogadores',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.headline5,
-                            ),
-                            const SizedBox(height: kDefaultPadding),
-                            GridView(
-                              shrinkWrap: true,
-                              padding: const EdgeInsets.all(kDefaultPadding),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 5,
-                                mainAxisSpacing: 5,
-                              ),
-                              children: [
-                                PlayerGridTile(
-                                  ready: true,
-                                  user: UserEntity(
-                                      name: 'Geovanna',
-                                      picture:
-                                          'https://i.pravatar.cc/150?img=47'),
-                                ),
-                                PlayerGridTile(
-                                  user: UserEntity(
-                                      name: 'Mariana',
-                                      picture:
-                                          'https://i.pravatar.cc/150?img=5'),
-                                ),
-                                PlayerGridTile(
-                                  user: UserEntity(
-                                      name: 'Emmanuel',
-                                      picture:
-                                          'https://i.pravatar.cc/150?img=8'),
-                                ),
-                                PlayerGridTile(
-                                  ready: true,
-                                  user: UserEntity(
-                                      name: 'Você',
-                                      picture:
-                                          'https://i.pravatar.cc/150?img=12'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      child: FadeTransition(
-                        opacity: _playgroundAnimation,
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: kDefaultPadding),
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    "Normalmente, quantos litros de sangue uma pessoa tem? Em média, quantos são retirados numa doação de sangue?",
-                                    style:
-                                        Theme.of(context).textTheme.headline6,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(kDefaultPadding),
-                              child: Text("QUAL É A RESPOSTA CORRETA?",
-                                  style: Theme.of(context).textTheme.caption),
-                            ),
-                            GameOption(
-                                onPressed: controller.saveAnswer,
-                                answer: controller.currentRound.answer,
-                                text:
-                                    "Tem entre 2 a 4 litros. São retirados 450 mililitros"),
-                            GameOption(
-                              onPressed: controller.saveAnswer,
-                              answer: controller.currentRound.answer,
-                              text:
-                                  "Tem entre 4 a 6 litros. São retirados 450 mililitros",
-                              isCorrect: true,
-                            ),
-                            GameOption(
-                                onPressed: controller.saveAnswer,
-                                answer: controller.currentRound.answer,
-                                text: "Tem 10 litros. São retirados 2 litros"),
-                            GameOption(
-                                onPressed: controller.saveAnswer,
-                                answer: controller.currentRound.answer,
-                                text: "Tem 7 litros. São retirados 1,5 litros"),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
+                Expanded(
+                  child: Observer(builder: (context) {
+                    if (controller.currentRound.stage == GameStage.waiting) {
+                      return RoundLobby();
+                    }
+                    if (controller.currentRound.stage == GameStage.responding) {
+                      return RoundContent();
+                    }
+
+                    return Container();
+                  }),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(kDefaultPadding),
                   child: Observer(builder: (context) {
@@ -270,7 +139,7 @@ class _GamePageState extends State<GamePage> with TickerProviderStateMixin {
                                     onPressed: controller
                                                     .currentRound.heResponded ==
                                                 null ||
-                                            controller.currentRound.heResponded!
+                                            controller.currentRound.heResponded
                                         ? null
                                         : controller.send,
                                     child: Text("Enviar"),

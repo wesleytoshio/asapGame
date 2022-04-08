@@ -1,6 +1,7 @@
 import 'package:asap_game/di/injectable.dart';
 import 'package:asap_game/presentation/app/app_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../../../app_config.dart';
@@ -18,6 +19,10 @@ class PlayerSliveAppBarFlexible extends StatelessWidget {
       return SliverAppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.dark,
+        ),
         expandedHeight: appBarHeight,
         flexibleSpace: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -64,21 +69,10 @@ class PlayerSliveAppBarFlexible extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(
-                    appController.user!.name!,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(color: Colors.white),
-                  ),
+                  Text(appController.user!.name!,
+                      style: Theme.of(context).textTheme.headline6),
                   const SizedBox(height: 5),
-                  Text(
-                    'Level 16',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle2!
-                        .copyWith(color: Colors.white),
-                  )
+                  Text('Level 16', style: Theme.of(context).textTheme.subtitle2)
                 ],
               ),
             ),
