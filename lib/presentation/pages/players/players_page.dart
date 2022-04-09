@@ -4,19 +4,38 @@ import 'package:asap_game/presentation/pages/players/widgets/user_info_persisten
 import 'package:asap_game/presentation/themes/theme_const.dart';
 import 'package:breathing_collection/breathing_collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../widgets/animations/boucing.dart';
 import '../../widgets/avatars/circle_avatar_with_badge.dart';
 
-class PlayersPage extends StatelessWidget {
+class PlayersPage extends StatefulWidget {
   const PlayersPage({Key? key}) : super(key: key);
 
   @override
+  State<PlayersPage> createState() => _PlayersPageState();
+}
+
+class _PlayersPageState extends State<PlayersPage> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController(initialScrollOffset: 0);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    final currentIndex = 0;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.grey[200],
@@ -41,6 +60,7 @@ class PlayersPage extends StatelessWidget {
             ),
             CustomScrollView(
               physics: const BouncingScrollPhysics(),
+              controller: _scrollController,
               slivers: [
                 // PlayerSliveAppBarFlexible(),
                 // SliverPersistentHeader(
@@ -92,46 +112,58 @@ class PlayersPage extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: Card(
-          margin:
-              EdgeInsets.symmetric(vertical: 10, horizontal: kDefaultPadding),
-          clipBehavior: Clip.hardEdge,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-          child: BottomNavigationBar(
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Ionicons.home_outline),
-                activeIcon: Icon(Ionicons.home),
-                label: "",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Ionicons.trophy_outline),
-                activeIcon: Icon(Ionicons.trophy),
-                label: "",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Ionicons.people_outline),
-                activeIcon: Icon(Ionicons.people),
-                label: "",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Ionicons.notifications_outline),
-                activeIcon: Icon(Ionicons.notifications),
-                label: "",
-              ),
-            ],
-            currentIndex: 0,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white,
-            type: BottomNavigationBarType.fixed,
-            onTap: (v) {},
-          ),
-        ),
+        bottomNavigationBar: AnimatedBuilder(
+            animation: _scrollController,
+            builder: (context, child) {
+              return AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                height: (_scrollController.hasClients &&
+                        _scrollController.position.userScrollDirection ==
+                            ScrollDirection.reverse)
+                    ? 0
+                    : 78,
+                child: Card(
+                  margin: EdgeInsets.symmetric(
+                      vertical: 10, horizontal: kDefaultPadding),
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: BottomNavigationBar(
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: Icon(Ionicons.home_outline),
+                        activeIcon: Icon(Ionicons.home),
+                        label: "",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Ionicons.trophy_outline),
+                        activeIcon: Icon(Ionicons.trophy),
+                        label: "",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Ionicons.people_outline),
+                        activeIcon: Icon(Ionicons.people),
+                        label: "",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Ionicons.notifications_outline),
+                        activeIcon: Icon(Ionicons.notifications),
+                        label: "",
+                      ),
+                    ],
+                    currentIndex: 0,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    selectedItemColor: Colors.white,
+                    unselectedItemColor: Colors.white,
+                    type: BottomNavigationBarType.fixed,
+                    onTap: (v) {},
+                  ),
+                ),
+              );
+            }),
       ),
     );
   }
