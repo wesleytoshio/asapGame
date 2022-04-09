@@ -1,29 +1,37 @@
 import 'package:asap_game/app_config.dart';
 import 'package:asap_game/domain/entities/user_entity.dart';
+import 'package:asap_game/presentation/pages/players/widgets/user_info_persistent.dart';
 import 'package:asap_game/presentation/themes/theme_const.dart';
 import 'package:breathing_collection/breathing_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ionicons/ionicons.dart';
 
 import '../../widgets/animations/boucing.dart';
 import '../../widgets/avatars/circle_avatar_with_badge.dart';
-import 'widgets/player_app_bar.dart';
-import 'widgets/player_menu_persistent.dart';
 
 class PlayersPage extends StatelessWidget {
   const PlayersPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    final currentIndex = 0;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.grey[300],
+        systemNavigationBarColor: Colors.grey[200],
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
+        // resizeToAvoidBottomInset: false,
+        // extendBodyBehindAppBar: true,
+        // backgroundColor: Colors.black87,
+        extendBody: true,
         body: Stack(
           children: [
             BreathingBackground(
-              initialMainColor: Colors.grey[200],
+              initialMainColor: Colors.white,
               transformedMainColor: Colors.grey[200],
               initialSecondaryColor: Colors.grey[200],
               transformedSecondaryColor: Colors.grey[300],
@@ -34,12 +42,13 @@ class PlayersPage extends StatelessWidget {
             CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-                PlayerSliveAppBarFlexible(),
-                SliverPersistentHeader(
-                  delegate: SliverPlayerMenuPersistent(),
-                  floating: true,
-                  pinned: true,
-                ),
+                // PlayerSliveAppBarFlexible(),
+                // SliverPersistentHeader(
+                //   delegate: SliverPlayerMenuPersistent(),
+                //   floating: true,
+                //   pinned: true,
+                // ),
+                SliverPersistentHeader(delegate: UserInfoPersistent()),
                 SliverHeading(
                   title: 'CONVIDADO PARA JOGOS',
                 ),
@@ -74,9 +83,54 @@ class PlayersPage extends StatelessWidget {
                         picture: 'https://i.pravatar.cc/150?img=14'),
                   ),
                 ])),
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: 400,
+                  ),
+                ),
               ],
             ),
           ],
+        ),
+        bottomNavigationBar: Card(
+          margin:
+              EdgeInsets.symmetric(vertical: 10, horizontal: kDefaultPadding),
+          clipBehavior: Clip.hardEdge,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Ionicons.home_outline),
+                activeIcon: Icon(Ionicons.home),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Ionicons.trophy_outline),
+                activeIcon: Icon(Ionicons.trophy),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Ionicons.people_outline),
+                activeIcon: Icon(Ionicons.people),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Ionicons.notifications_outline),
+                activeIcon: Icon(Ionicons.notifications),
+                label: "",
+              ),
+            ],
+            currentIndex: 0,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white,
+            type: BottomNavigationBarType.fixed,
+            onTap: (v) {},
+          ),
         ),
       ),
     );

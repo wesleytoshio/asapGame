@@ -13,7 +13,8 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppController _controller = getIt<AppController>();
-    var theme = ThemeData.light().copyWith(brightness: Brightness.light);
+    var theme = ThemeData.light().copyWith(
+        brightness: Brightness.light, canvasColor: Colors.transparent);
     return Builder(builder: (context) {
       return MaterialApp.router(
         routerDelegate: appRouter.delegate(
