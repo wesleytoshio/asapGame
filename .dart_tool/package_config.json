@@ -308,6 +308,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_sticky_header",
+      "rootUri": "file:///C:/Users/wesle/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_sticky_header-0.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///C:/Users/wesle/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_svg-1.0.3",
       "packageUri": "lib/",
@@ -764,6 +770,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "value_layout_builder",
+      "rootUri": "file:///C:/Users/wesle/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/value_layout_builder-0.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "vector_math",
       "rootUri": "file:///C:/Users/wesle/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/vector_math-2.1.1",
       "packageUri": "lib/",
@@ -812,7 +824,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-04-08T01:14:19.171922Z",
+  "generated": "2022-04-10T14:03:20.724659Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }
