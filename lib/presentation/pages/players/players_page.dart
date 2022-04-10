@@ -38,14 +38,14 @@ class _PlayersPageState extends State<PlayersPage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.grey[200],
+        systemNavigationBarColor: Theme.of(context).colorScheme.primary,
         statusBarBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
         // resizeToAvoidBottomInset: false,
         // extendBodyBehindAppBar: true,
-        // backgroundColor: Colors.black87,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         extendBody: true,
         body: Stack(
           children: [
@@ -70,39 +70,42 @@ class _PlayersPageState extends State<PlayersPage> {
                 // ),
                 SliverPersistentHeader(delegate: UserInfoPersistent()),
                 SliverHeading(
-                  title: 'CONVIDADO PARA JOGOS',
+                  title: 'DESAFIOS',
                 ),
                 SliverList(
                     delegate: SliverChildListDelegate([
+                  InvitationPending(),
+                  InvitationPending(),
+                  InvitationPending(),
                   InvitationPending(),
                   InvitationPending(),
                 ])),
                 SliverHeading(
                   title: 'AMIGOS PARA DESAFIAR',
                 ),
-                SliverList(
-                    delegate: SliverChildListDelegate([
-                  FriendsToPlay(
-                    user: UserEntity(
-                        name: 'Leonardo Medeiros',
-                        picture: 'https://i.pravatar.cc/150?img=50'),
-                  ),
-                  FriendsToPlay(
-                    user: UserEntity(
-                        name: 'Mariana',
-                        picture: 'https://i.pravatar.cc/150?img=5'),
-                  ),
-                  FriendsToPlay(
-                    user: UserEntity(
-                        name: 'Emmanuel',
-                        picture: 'https://i.pravatar.cc/150?img=8'),
-                  ),
-                  FriendsToPlay(
-                    user: UserEntity(
-                        name: 'Eduardo',
-                        picture: 'https://i.pravatar.cc/150?img=14'),
-                  ),
-                ])),
+                // SliverList(
+                //     delegate: SliverChildListDelegate([
+                //   FriendsToPlay(
+                //     user: UserEntity(
+                //         name: 'Leonardo Medeiros',
+                //         picture: 'https://i.pravatar.cc/150?img=50'),
+                //   ),
+                //   FriendsToPlay(
+                //     user: UserEntity(
+                //         name: 'Mariana',
+                //         picture: 'https://i.pravatar.cc/150?img=5'),
+                //   ),
+                //   FriendsToPlay(
+                //     user: UserEntity(
+                //         name: 'Emmanuel',
+                //         picture: 'https://i.pravatar.cc/150?img=8'),
+                //   ),
+                //   FriendsToPlay(
+                //     user: UserEntity(
+                //         name: 'Eduardo',
+                //         picture: 'https://i.pravatar.cc/150?img=14'),
+                //   ),
+                // ])),
                 SliverToBoxAdapter(
                   child: Container(
                     height: 400,
@@ -153,6 +156,11 @@ class _PlayersPageState extends State<PlayersPage> {
                         activeIcon: Icon(Ionicons.notifications),
                         label: "",
                       ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Ionicons.settings_outline),
+                        activeIcon: Icon(Ionicons.settings),
+                        label: "",
+                      ),
                     ],
                     currentIndex: 0,
                     backgroundColor: Theme.of(context).colorScheme.primary,
@@ -181,7 +189,11 @@ class SliverHeading extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(kDefaultPadding),
-        child: Text(title, style: Theme.of(context).textTheme.caption),
+        child: Text(title,
+            style: Theme.of(context)
+                .textTheme
+                .caption!
+                .copyWith(fontWeight: FontWeight.bold)),
       ),
     );
   }
@@ -209,6 +221,35 @@ class InvitationPending extends StatelessWidget {
               children: [
                 Row(
                   children: [
+                    CircleAvatarWithBadge(
+                      size: 55,
+                      scale: 1,
+                      backgroundColor: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.5),
+                      backgroundImage: NetworkImage(
+                          "https://pbs.twimg.com/profile_images/1422322042741919755/-NgZPdSV_400x400.png"),
+                      borderOffset: .9,
+                      position: Offset(-13, -13),
+                      badgeConstraints:
+                          BoxConstraints(minHeight: 20, minWidth: 20),
+                      badgeBackgroundColor:
+                          Theme.of(context).colorScheme.primary,
+                      badge: Center(
+                        child: Text(
+                          "10",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      badgePadding: const EdgeInsets.all(2),
+                      onPressedBadge: () {},
+                    ),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Text.rich(
                         TextSpan(
@@ -221,7 +262,7 @@ class InvitationPending extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              text: '🏆',
+                              text: '\n🪙',
                             ),
                             TextSpan(
                               text: ' 350 pontos ao vencedor!',
