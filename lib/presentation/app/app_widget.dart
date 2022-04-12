@@ -1,5 +1,3 @@
-import 'package:asap_game/di/injectable.dart';
-import 'package:asap_game/presentation/app/app_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,7 +10,6 @@ class AppWidget extends StatelessWidget {
   const AppWidget({required this.appRouter});
   @override
   Widget build(BuildContext context) {
-    AppController _controller = getIt<AppController>();
     var theme = ThemeData.light().copyWith(
         brightness: Brightness.light, canvasColor: Colors.transparent);
     return Builder(builder: (context) {
@@ -30,9 +27,6 @@ class AppWidget extends StatelessWidget {
             fontFamily: GoogleFonts.lexend().fontFamily,
           ),
           primaryTextTheme: theme.textTheme.apply(
-            fontFamily: GoogleFonts.lexend().fontFamily,
-          ),
-          accentTextTheme: theme.textTheme.apply(
             fontFamily: GoogleFonts.lexend().fontFamily,
           ),
           colorScheme: theme.colorScheme.copyWith(

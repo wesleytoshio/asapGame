@@ -136,12 +136,10 @@ class _GamePageState extends State<GamePage> {
                                           side: BorderSide(
                                               color: Colors.white, width: 2),
                                         )),
-                                    onPressed: controller
-                                                    .currentRound.heResponded ==
-                                                null ||
-                                            controller.currentRound.heResponded
-                                        ? null
-                                        : controller.send,
+                                    onPressed:
+                                        controller.currentRound.heResponded
+                                            ? null
+                                            : controller.send,
                                     child: Text("Enviar"),
                                   ),
                                 ),

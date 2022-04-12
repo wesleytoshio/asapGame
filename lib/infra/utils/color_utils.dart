@@ -8,4 +8,7 @@ class ColorUtils {
       return color;
     }
   }
+
+  static Color primaryColorLuminance(BuildContext context) =>
+      getColorByLuminance(Theme.of(context).colorScheme.primary);
 }

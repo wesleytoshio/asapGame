@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:ionicons/ionicons.dart';
 
+import '../../../infra/utils/color_utils.dart';
 import '../../widgets/animations/boucing.dart';
 import '../../widgets/avatars/circle_avatar_with_badge.dart';
 import 'widgets/user_info_persistent.dart';
@@ -37,7 +38,7 @@ class _PlayersPageState extends State<PlayersPage> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
+      value: const SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white,
         statusBarBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.dark,
@@ -51,31 +52,17 @@ class _PlayersPageState extends State<PlayersPage> {
           physics: const BouncingScrollPhysics(),
           controller: _scrollController,
           slivers: [
-            // PlayerSliveAppBarFlexible(),
-            // SliverPersistentHeader(
-            //   delegate: SliverPlayerMenuPersistent(),
-            //   floating: true,
-            //   pinned: true,
-            // ),
             SliverPersistentHeader(
               delegate: UserInfoPersistent(),
             ),
-            SliverStickyHeader(
-              header: Container(
-                padding: EdgeInsets.only(top: 35),
-                color: Colors.white,
-                child: Container(
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Text(
-                    "Predator Gaming",
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                        fontWeight: FontWeight.bold, color: Colors.black54),
-                  ),
-                ),
+            SliverStickyHeader.builder(
+              builder: (context, state) => HeadingSticky(
+                state: state,
+                title: "Predator Gaming",
               ),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (context, i) => InvitationPending(
+                  (context, i) => const InvitationPending(
                     picture:
                         "https://pbs.twimg.com/profile_images/1268864464838897664/yc3b7d9c_400x400.jpg",
                   ),
@@ -83,22 +70,14 @@ class _PlayersPageState extends State<PlayersPage> {
                 ),
               ),
             ),
-            SliverStickyHeader(
-              header: Container(
-                padding: EdgeInsets.only(top: 35),
-                color: Colors.white,
-                child: Container(
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Text(
-                    "Maxima Gaming",
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                        fontWeight: FontWeight.bold, color: Colors.black54),
-                  ),
-                ),
+            SliverStickyHeader.builder(
+              builder: (context, state) => HeadingSticky(
+                state: state,
+                title: "Maxima Gaming",
               ),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (context, i) => InvitationPending(
+                  (context, i) => const InvitationPending(
                     picture:
                         "https://pbs.twimg.com/profile_images/1422322042741919755/-NgZPdSV_400x400.png",
                   ),
@@ -106,22 +85,14 @@ class _PlayersPageState extends State<PlayersPage> {
                 ),
               ),
             ),
-            SliverStickyHeader(
-              header: Container(
-                padding: EdgeInsets.only(top: 35),
-                color: Colors.white,
-                child: Container(
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Text(
-                    "Nocturnos Gaming",
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                        fontWeight: FontWeight.bold, color: Colors.black54),
-                  ),
-                ),
+            SliverStickyHeader.builder(
+              builder: (context, state) => HeadingSticky(
+                state: state,
+                title: "Nocturnos Gaming",
               ),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (context, i) => InvitationPending(
+                  (context, i) => const InvitationPending(
                     picture:
                         "https://yt3.ggpht.com/-TB_iYWxtXUGMHWDYGDPgnafNFYdbpUkKtasjmD8Plb1KpcyNl6fEITgzsx2E3spVA77liXOz8I=s900-c-k-c0x00ffffff-no-rj",
                   ),
@@ -129,48 +100,6 @@ class _PlayersPageState extends State<PlayersPage> {
                 ),
               ),
             ),
-            // SliverPersistentHeader(
-            //     pinned: true,
-            //     delegate: HomeSliverHeading(
-            //       title: 'JOGOS DISPONÍVEIS',
-            //     )),
-            // SliverHeading(
-            //   title: 'JOGOS DISPONÍVEIS',
-            // ),
-            // SliverList(
-            //     delegate: SliverChildListDelegate([
-            //   InvitationPending(),
-            //   InvitationPending(),
-            //   InvitationPending(),
-            //   InvitationPending(),
-            //   InvitationPending(),
-            // ])),
-            // SliverHeading(
-            //   title: 'AMIGOS PARA DESAFIAR',
-            // ),
-            // SliverList(
-            //     delegate: SliverChildListDelegate([
-            //   FriendsToPlay(
-            //     user: UserEntity(
-            //         name: 'Leonardo Medeiros',
-            //         picture: 'https://i.pravatar.cc/150?img=50'),
-            //   ),
-            //   FriendsToPlay(
-            //     user: UserEntity(
-            //         name: 'Mariana',
-            //         picture: 'https://i.pravatar.cc/150?img=5'),
-            //   ),
-            //   FriendsToPlay(
-            //     user: UserEntity(
-            //         name: 'Emmanuel',
-            //         picture: 'https://i.pravatar.cc/150?img=8'),
-            //   ),
-            //   FriendsToPlay(
-            //     user: UserEntity(
-            //         name: 'Eduardo',
-            //         picture: 'https://i.pravatar.cc/150?img=14'),
-            //   ),
-            // ])),
             SliverToBoxAdapter(
               child: Container(
                 height: 400,
@@ -181,16 +110,17 @@ class _PlayersPageState extends State<PlayersPage> {
         bottomNavigationBar: AnimatedBuilder(
             animation: _scrollController,
             builder: (context, child) {
-              return AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                height: (_scrollController.hasClients &&
+              return AnimatedCrossFade(
+                duration: const Duration(milliseconds: 300),
+                crossFadeState: (_scrollController.hasClients &&
                         _scrollController.position.userScrollDirection ==
                             ScrollDirection.reverse)
-                    ? 0
-                    : 78,
-                child: Card(
-                  margin: EdgeInsets.symmetric(
-                      vertical: 10, horizontal: kDefaultPadding),
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                secondChild: const SizedBox.shrink(),
+                firstChild: Card(
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 2, horizontal: kDefaultPadding),
                   clipBehavior: Clip.hardEdge,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
@@ -198,28 +128,34 @@ class _PlayersPageState extends State<PlayersPage> {
                   child: BottomNavigationBar(
                     showSelectedLabels: false,
                     showUnselectedLabels: false,
+                    selectedIconTheme: Theme.of(context).iconTheme.copyWith(
+                          color: ColorUtils.primaryColorLuminance(context),
+                        ),
+                    unselectedIconTheme: Theme.of(context).iconTheme.copyWith(
+                          color: ColorUtils.primaryColorLuminance(context),
+                        ),
                     items: [
-                      BottomNavigationBarItem(
+                      const BottomNavigationBarItem(
                         icon: Icon(Ionicons.home_outline),
                         activeIcon: Icon(Ionicons.home),
                         label: "",
                       ),
-                      BottomNavigationBarItem(
+                      const BottomNavigationBarItem(
                         icon: Icon(Ionicons.trophy_outline),
                         activeIcon: Icon(Ionicons.trophy),
                         label: "",
                       ),
-                      BottomNavigationBarItem(
+                      const BottomNavigationBarItem(
                         icon: Icon(Ionicons.people_outline),
                         activeIcon: Icon(Ionicons.people),
                         label: "",
                       ),
-                      BottomNavigationBarItem(
+                      const BottomNavigationBarItem(
                         icon: Icon(Ionicons.notifications_outline),
                         activeIcon: Icon(Ionicons.notifications),
                         label: "",
                       ),
-                      BottomNavigationBarItem(
+                      const BottomNavigationBarItem(
                         icon: Icon(Ionicons.settings_outline),
                         activeIcon: Icon(Ionicons.settings),
                         label: "",
@@ -235,6 +171,43 @@ class _PlayersPageState extends State<PlayersPage> {
                 ),
               );
             }),
+      ),
+    );
+  }
+}
+
+class HeadingSticky extends StatelessWidget {
+  final SliverStickyHeaderState state;
+  final String title;
+  const HeadingSticky({
+    Key? key,
+    required this.state,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      elevation: state.isPinned ? 0.3 : 0,
+      color: Colors.white,
+      child: AnimatedPadding(
+        padding: EdgeInsets.only(top: state.isPinned ? 35 : 0),
+        duration: const Duration(milliseconds: 200),
+        // color: (state.isPinned
+        //         ? Theme.of(context).colorScheme.primary
+        //         : Colors.white)
+        //     .withOpacity(1.0 - state.scrollPercentage),
+        child: Container(
+          padding: const EdgeInsets.all(kDefaultPadding),
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: state.isPinned
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.black54),
+          ),
+        ),
       ),
     );
   }
@@ -278,8 +251,11 @@ class InvitationPending extends StatelessWidget {
       child: Card(
         margin: const EdgeInsets.symmetric(
             horizontal: kDefaultPadding, vertical: 5),
-        shape:
-            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        shape: ContinuousRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+          side: const BorderSide(color: Colors.grey, width: 1),
+        ),
+        elevation: 0,
         child: InkWell(
           onTap: () => AppConfig.instance.appRouter.pushNamed('/game/1'),
           child: Padding(
@@ -297,12 +273,12 @@ class InvitationPending extends StatelessWidget {
                           .withOpacity(0.5),
                       backgroundImage: NetworkImage(picture),
                       borderOffset: .9,
-                      position: Offset(-13, -13),
+                      position: const Offset(-13, -13),
                       badgeConstraints:
-                          BoxConstraints(minHeight: 20, minWidth: 20),
+                          const BoxConstraints(minHeight: 20, minWidth: 20),
                       badgeBackgroundColor:
                           Theme.of(context).colorScheme.primary,
-                      badge: Center(
+                      badge: const Center(
                         child: Text(
                           "10",
                           style: TextStyle(
@@ -321,13 +297,13 @@ class InvitationPending extends StatelessWidget {
                         TextSpan(
                           text: 'Você foi convidado a para jogar ',
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: '"De quem é a famosa frase".',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: '\n🪙',
                             ),
                             TextSpan(
@@ -343,14 +319,14 @@ class InvitationPending extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   height: kDefaultPadding,
                 ),
                 Row(
                   children: [
-                    Text('🕹️ Múltipla escolha'),
-                    Spacer(),
-                    Text('⏱️ Inicia em: 30 min'),
+                    const Text('🕹️ Múltipla escolha'),
+                    const Spacer(),
+                    const Text('⏱️ Inicia em: 30 min'),
                   ],
                 )
               ],
@@ -385,7 +361,7 @@ class FriendsToPlay extends StatelessWidget {
             children: [
               PlayerAvatarBadge(
                 user: user,
-                badge: Center(
+                badge: const Center(
                   child: Text(
                     "16",
                     style: TextStyle(fontSize: 12),
@@ -400,7 +376,7 @@ class FriendsToPlay extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     "JOGAR",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -432,9 +408,9 @@ class PlayerAvatarBadge extends StatelessWidget {
       backgroundColor: Colors.white,
       backgroundImage: NetworkImage(user.picture!),
       borderOffset: .9,
-      position: Offset(-17, -17),
+      position: const Offset(-17, -17),
       badgeElevation: 0,
-      badgeConstraints: BoxConstraints(minHeight: 25, minWidth: 25),
+      badgeConstraints: const BoxConstraints(minHeight: 25, minWidth: 25),
       badgeBackgroundColor: Colors.white,
       badge: badge,
       badgePadding: EdgeInsets.zero,

@@ -20,6 +20,19 @@ Future<void> main() async {
     baseUrl: 'api',
     appRouter: _appRouter,
   );
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Material(
+      child: Container(
+        color: Colors.red,
+        child: Center(
+          child: Text(
+            details.exception.toString(),
+          ),
+        ),
+      ),
+    );
+  };
+
   runApp(AppWidget(
     appRouter: _appRouter,
   ));
